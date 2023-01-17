@@ -431,6 +431,7 @@ class MQTTClient:
         port: int = 1883,
         username: Optional[str] = None,
         password: Optional[str] = None,
+        objectname: Optional[str] = None,
     ):
         self.devices = devices
         self.bus = bus
@@ -438,6 +439,7 @@ class MQTTClient:
         self.port = port
         self.username = username
         self.password = password
+        self.objectname = objectname
         self.home_assistant_mode = home_assistant_mode
 
     async def run(self):
@@ -532,11 +534,11 @@ class MQTTClient:
                         f'{device.sn}'
                     ],
                     'manufacturer': 'Bluetti',
-                    'name': f'{device.type} {device.sn}',
+                    'name': self.objectname,
                     'model': device.type
                 },
                 'unique_id': f'{device.sn}_{ha_id}',
-                'object_id': f'{device.type}_{ha_id}',
+                'object_id': f'{self.objectname}_{ha_id}',
             }
             if field.setter:
                 payload_dict['command_topic'] = f'bluetti/command/{device.type}-{device.sn}/{id}'
