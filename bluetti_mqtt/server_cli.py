@@ -42,6 +42,10 @@ class CommandLineHandler:
             type=str,
             help='The optional MQTT broker password')
         parser.add_argument(
+            '--objectname',
+            type=str,
+            help='The object name within Home Assitant')
+        parser.add_argument(
             '--interval',
             default=0,
             type=int,
@@ -116,6 +120,7 @@ class CommandLineHandler:
             port=args.port,
             username=args.username,
             password=args.password,
+            objectname=args.objectname,
         )
         mqtt_task = loop.create_task(mqtt_client.run())
         self.background_tasks.add(mqtt_task)
